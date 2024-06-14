@@ -1,0 +1,68 @@
+<!doctype html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}" />
+</head>
+<body>
+<header class="main-header">
+    <a href="{% url 'main:home' %}" class="logo"></a>
+    <nav class="main-header-nav">
+        <div class="logotype-and-search">
+            <a href = "{% url 'main:home' %}"><img src="{% static 'main/img/logo.png' %}" width="77px" height="62px"></a>
+            <form action="{% url 'main:search' %}" method="get">
+                        <input class="input-search" type="search" name="q" placeholder="Поиск">
+            </form>
+        </div>
+        <ul class="site-navigation">
+            <li class="site-navigation-item compil-header">
+                <a href="{% url 'main:compilations' %}">Подборки</a>
+            </li>
+            <li class="site-navigation-item articles-header">
+                <a href="{% url 'main:articles' %}">Обучение</a>
+            </li>
+            <li class="site-navigation-item articles-header">
+                <a href="{% url 'main:create' %}" class="add_pub_button">Опубликовать</a>
+            </li>
+            {% if user.is_authenticated %}
+            <form id="logoutForm" method="post" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <li class="last site-navigation-item login-header"><a href="{% url 'users:profile' %}">{{ user.username }}</a> | <a href="#" onclick="document.getElementById('logoutForm').submit(); return false;">Выйти</a></li>
+            </form>
+            {% else %}
+                <li class="last site-navigation-item login-header"><a href="{% url 'users:login' %}">Войти</a> | <a href="{% url 'users:register' %}">Регистрация</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+<footer class="footer">
+    <div class="footer-items">
+        <ul class="footer-navigation">
+            <li class="articles-footer">
+                <a href="{% url 'main:compilations' %}">Подборки</a>
+            </li>
+            <li class="articles-footer">
+                <a href="{% url 'main:home' %}">Главная</a>
+            </li>
+            <li class="articles-footer">
+                <a href="{% url 'main:articles' %}">Обучение</a>
+            </li>
+        </ul>
+        <div class="connection">
+            <p class="connect">Связаться:</p>
+            <p><a href="tel:79229568118" class = "number"> +7 922 956 8118</a></p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

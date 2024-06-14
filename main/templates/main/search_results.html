@@ -1,0 +1,21 @@
+{% extends 'main/layout.html' %}
+
+{% block content %}
+
+    {% if query %}
+        <h3>Результаты поиска для "{{ query }}":</h3>
+        <ul>
+            {% for post in results %}
+                <li>
+                    <p><strong>Автор:</strong> {{ post.author.username }}</p>
+                    <p><strong>Категория:</strong> {{ post.cat.name }}</p>
+                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                    <p>{{ post.title }}</p>
+                    <p>{{ post.likes.count }} лайков</p>
+                </li>
+            {% empty %}
+                <li>Ничего не найдено</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

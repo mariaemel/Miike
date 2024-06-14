@@ -1,0 +1,32 @@
+<div class="row">
+    <h2 class="mt-3 mb-3 comments-name">Комментарии</h2>
+    <div class="scroll-comment">
+    {% if comments %}
+        {% for comment in comments %}
+            <p class="comment-text"><a href="{% url 'users:user_profile' username=comment.author.username %}">{{ comment.author }}</a>
+                | {{ comment.datetime }} | {% if comment.author == user or user.is_superuser %}
+                    <a class="redactirovat" href="{% url 'main:edit_comment' pk=comment.pk %}">Редактировать</a> |
+                    <a class="ydalit" href="{% url 'main:delete_comment' pk=comment.pk %}">Удалить</a>
+                {% endif %}</p>
+            <p class="coment">{{ comment.text }}</p>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p class="noycomm">Нет комментариев</p>
+    {% endif %}
+    </div>
+
+</div>
+<div class="row">
+<!--    <h2 class="mt-3 mb-3">Добавить комментарий:</h2>-->
+    {% if user.is_authenticated %}
+        <form method="post" enctype="multipart/form-data" action="{% url 'main:add_comment' pk=post.pk %}">
+            {% csrf_token %}
+            {{ comment_form.text }}
+            <button class="comment-button" type="submit"></button>
+        </form>
+
+    {% else %}
+        <p><a class="comment-login" href="{% url 'users:login' %}">Войдите</a>, чтобы добавить комментарий.</p>
+    {% endif %}
+</div>

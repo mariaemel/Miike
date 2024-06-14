@@ -1,0 +1,17 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="profile">
+    <h1>Редактировать профиль</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        {% for field in form %}
+            <p><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}</p>
+            <div class="form-error">{{ field.errors }}</div>
+        {% endfor %}
+        <p><button type="submit">Сохранить</button></p>
+    </form>
+</div>
+{% endblock %}
+

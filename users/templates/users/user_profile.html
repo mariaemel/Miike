@@ -1,0 +1,40 @@
+{% extends 'main/layout.html' %}
+{% block content %}
+<div class="profile">
+    <h1>Профиль: {{ profile_user.username }}</h1>
+    <img src="{{ profile_user.profile.avatar.url }}" alt="Аватар" width="100">
+    <p>{{ profile_user.profile.bio }}</p>
+    <p>Дата рождения: {{ profile_user.profile.birth_date }}</p>
+    <p><a href="{% url 'users:followers_list' profile_user.username %}">Подписчиков: {{ profile_user.profile.followers.count }}</a></p>
+    <p><a href="{% url 'users:following_list' profile_user.username %}">Подписок: {{ profile_user.profile.following.count }}</a></p>
+
+    {% if request.user != profile_user %}
+    <form action="{% url 'users:follow_toggle' profile_user.username %}" method="post">
+        {% csrf_token %}
+        {% if request.user in profile_user.profile.followers.all %}
+        <button type="submit">Отписаться</button>
+        {% else %}
+        <button type="submit">Подписаться</button>
+        {% endif %}
+    </form>
+    {% else %}
+    <a href="{% url 'users:profile_edit' %}"><button>Редактировать</button></a>
+    {% endif %}
+
+    <h2>Публикации автора</h2>
+    <div>
+        {% for post in posts %}
+        <div class="post">
+            <h3>{{ post.title }}</h3>
+            <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="{{ post.title }}" width="25%" height="25%"></a>
+            <p>{{ post.content|linebreaks }}</p>
+            <p>Автор: {{ post.author }}</p>
+            <p>Лайков: {{ post.total_likes }}</p>
+        </div>
+        {% empty %}
+        <p>Нет публикаций.</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

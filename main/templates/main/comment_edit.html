@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Редактирование комментария{% endblock %}
+
+{% block content %}
+    <div class="form-section container mt-3">
+        <h3>Редактирование комментария</h3>
+        <form method="post">
+            {% csrf_token %}
+            <p class="comment">{{ form.text }}</p>
+            <button class="btn btn-primary" type="submit">Обновить</button>
+            <a href="{% url 'main:post' cat_slug=object.post.cat.slug post_slug=object.post.slug %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+{% endblock %}

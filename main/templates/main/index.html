@@ -1,0 +1,44 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+<section class="descript">
+    <div class = "description-text">
+        <h2>Погрузитесь в мир моды и стиля</h2>
+        <p>с нашими подборками причесок, макияжей, маникюра, одежды и аксессуаров!</p>
+    </div>
+    <img src="{% static 'main/img/description.png' %}" width="906px" height="621px" alt="Описание">
+</section>
+<section class="compilations">
+    <img src="{% static 'main/img/compilations.png' %}" width="818px" height="874px" alt="Коллекции">
+    <div class = "info">
+        <h2>Ищете идеи для вашего образа?</h2>
+        <p >Наши вдохновляющие коллекции помогут вам создать стильный образ легко и быстро.</p>
+        <button class="button" type="button" onclick="location.href='{% url 'main:compilations' %}'">Коллекции</button>
+    </div>
+</section>
+<section class="articles">
+    <div class = "info">
+        <h2>Узнайте секреты успешного выбора стиля</h2>
+        <p>Комбинируйте элементы и создавайте уникальные образы с нашими обучающими материалами и советами.</p>
+        <button class="button" type="button" onclick="location.href='{% url 'main:articles' %}'">Смотреть</button>
+    </div>
+    <img src="{% static 'main/img/learn.png' %}" width="908px" height="804px" alt="Статьи">
+</section>
+<section class="search">
+    <div class = "info">
+        <h2>Создавайте свой индивидуальный образ с помощью функции поиска</h2>
+        <p>Найдите уникальные решения для вашего стиля.</p>
+        <button class="button" type="button" onclick="location.href='{% url 'main:home' %}'">Поиск</button>
+    </div>
+    <img src="{% static 'main/img/search.png' %}" width="848px" height="806px" alt="Поиск">
+</section>
+<section class="welcome">
+    <div class = "registrate_info">
+        <h2>Присоединяйтесь к нашему сообществу стильных людей</h2>
+        <p>Делитесь своими образами, советами и впечатлениями о моде и стиле!</p>
+        <a href="{% url 'main:compilations' %}"><button class="button"> Начать </button></button></a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'main/layout.html' %}
+
+{% block title %} {{ post.title }} {% endblock %}
+{% block content %}
+<section class="comments">
+    <div class="post-photo">
+        <img class="photo-in-post" src="{{ post.image.url }}" width="50%" height="25%">
+        <div class="description-post">
+            <p class="post-author post-descript"><a href="{% url 'users:user_profile' username=post.author.username %}">{{ post.author }}</a></p>
+            <p class="post-descript">{{ post.title }}</p>
+            {{ post.content|linebreaks }}
+        </div>
+    </div>
+    <div class="likes">
+        <span id="total_likes">{{ total_likes }}</span>  <!-- Use span directly -->
+        <form id="like-form" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value="{{ post.id }}">
+            <button type="button" id="like-button" class="like-button-1" data-post-id="{{ post.id }}">
+                <span id="like-icon"></span>
+            </button>
+        </form>
+    </div>
+    <div class="comments-side">
+        {% include "main/comments.html" with post=post comments=post.comments.all %}
+    </div>
+</section>
+{% if user == post.author %}
+    <p><a href="{% url 'main:update' cat_slug=post.cat.slug post_slug=post.slug %}" class="btn btn-secondary btn-red-post">Редактировать</a></p>
+    <form action="{% url 'main:confirm_delete' cat_slug=post.cat.slug post_slug=post.slug %}" method="get">
+        <button type="submit" class="btn btn-secondary btn-del-post">Удалить</button>
+    </form>
+{% endif %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.like-button-1').click(function() {
+        var button = $(this);
+        var postId = button.data('post-id');
+
+        // Toggle 'liked' class
+        button.toggleClass('liked');
+
+        $.ajax({
+            url: '{% url "main:like_post" %}',
+            method: 'POST',
+            data: {
+                'post_id': postId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(data) {
+                // Update like count
+                $('#total_likes').text(data.total_likes);
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

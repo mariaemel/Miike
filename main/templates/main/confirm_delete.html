@@ -1,0 +1,16 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Удалить пост{% endblock %}
+
+{% block content %}
+<div class="DELETE">
+  <h3>Удалить пост</h3>
+  <p class="deleted">Вы уверены, что хотите удалить пост "{{ object.title }}"?</p>
+
+  <form action="{% url 'main:delete' cat_slug=object.cat.slug post_slug=object.slug %}" method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger me-2" type="submit">Да, удалить</button>
+    <a href="{% url 'main:post' cat_slug=object.cat.slug post_slug=object.slug %}" class="btn btn-secondary btn-second">Отмена</a>
+  </form>
+</div>
+{% endblock %}

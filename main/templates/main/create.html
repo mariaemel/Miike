@@ -1,0 +1,20 @@
+{% extends 'main/layout.html' %}
+{% block title %}Форма по добавлению публикации{% endblock %}
+
+{% block content %}
+
+<div class="add-publication">
+    <h1> Форма по добавлению публикации</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.image }}<br>
+        {{ form.title }}<br>
+        {{ form.cat }}<br>
+        <span>{{ error }}</span>
+
+        <button class="btn-secondary soxr ulr" type="submit"><p class="publ">Опубликовать</p></button>
+    </form>
+</div>
+
+
+{% endblock %}
