@@ -656,3 +656,8 @@ input, textarea, select {
     color: black;
     text-decoration: none;
 }
+
+.like-button-1.disabled {
+    opacity: 0.5;
+    pointer-events: none; /* Отключаем кликабельность */
+}

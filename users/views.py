@@ -8,12 +8,12 @@ from django.views.generic import UpdateView, CreateView, View, DetailView, ListV
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from main.models import Publications
-from .forms import ProfileUserForm, RegisterUserForm
+from .forms import ProfileUserForm, RegisterUserForm, CustomAuthenticationForm
 from .models import Profile
 
 
 class LoginUser(LoginView):
-    form_class = AuthenticationForm
+    form_class = CustomAuthenticationForm
     template_name = "users/login.html"
     extra_context = {"title": "Авторизация"}
 
@@ -79,6 +79,8 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         user.last_name = form.cleaned_data['last_name']
         if 'avatar' in form.cleaned_data and form.cleaned_data['avatar']:
             profile.avatar = form.cleaned_data['avatar']
+        if 'birth_date' in form.cleaned_data and form.cleaned_data['birth_date']:
+            profile.birth_date = form.cleaned_data['birth_date']
         user.save()
         profile.save()
         return super().form_valid(form)
