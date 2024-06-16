@@ -2,15 +2,15 @@
 {% load static %}
 {% block content %}
 <div class="profile">
-    <h1>Редактировать профиль</h1>
+    <h1 style="padding-bottom: 20px;">Редактировать профиль</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
         {% for field in form %}
-            <p><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}</p>
+            <div style="margin-bottom: 40px; width: 150%; margin-left: -33%;"><p>{{ field }}</p></div>
             <div class="form-error">{{ field.errors }}</div>
         {% endfor %}
-        <p><button type="submit">Сохранить</button></p>
+        <p><button class="soxr pol" style="width: 30%; margin-left: 30%;" type="submit">Сохранить</button></p>
     </form>
 </div>
 {% endblock %}

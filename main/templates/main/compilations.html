@@ -4,11 +4,9 @@
 {% block title %} Подборки {% endblock %}
 
 {% block content %}
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    // Добавление класса category-button ко всем ссылкам в списке категорий
     $("ul.category-list a").addClass("category-button");
 });
 </script>
@@ -20,20 +18,17 @@ $(document).ready(function() {
 
 <section class="posts">
     <div>
-        <ul class="container-posts">
+        <ul class="container-posts1">
             {% for b in posts %}
                 <li>
                     <a href="{{ b.get_absolute_url }}"><img class="img" src="{{ b.image.url }}" width="70%" height="70%"></a>
                     <p><a href="{% url 'users:user_profile' username=b.author.username %}">{{ b.author }}</a></p>
-                    <p class="likes-count">{{ b.total_likes }} </p>
-                    <button data-post-id="{{ b.id }}" class="like-button {% if user in b.likes.all %} liked {% endif %}">
-                        </button>
+                    <button data-post-id="{{ b.id }}" class="like-button {% if user in b.likes.all %} liked {% endif %}"></button>
                 </li>
             {% endfor %}
         </ul>
     </div>
 </section>
-
 
 <script>
 $(document).ready(function() {
@@ -41,12 +36,9 @@ $(document).ready(function() {
         var button = $(this);
         var postId = button.data('post-id');
 
-        // Проверяем, лайкнут ли пост
         if (button.hasClass('liked')) {
-            // Если лайкнут, удаляем класс "liked"
             button.removeClass('liked');
         } else {
-            // Если не лайкнут, добавляем класс "liked"
             button.addClass('liked');
         }
 
@@ -58,12 +50,17 @@ $(document).ready(function() {
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             success: function(data) {
-                // Обновляем счетчик лайков
-                button.siblings('.likes-count').text(data.total_likes + ' ');
+                if (data.redirect) {
+                    window.location.href = data.redirect + "?next=" + window.location.pathname;
+                } else {
+                    button.siblings('.likes-count').text(data.total_likes + ' ');
+                }
+            },
+            error: function() {
+                window.location.href = "{% url 'users:login' %}?next=" + window.location.pathname;
             }
         });
     });
 });
 </script>
-
 {% endblock %}

@@ -3,10 +3,15 @@
 {% block title %}Редактировать пост{% endblock %}
 
 {% block content %}
-  <h3>Редактировать пост</h3>
-  <form method="post">
+  <h3 class="postred">Редактировать пост</h3>
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="soxr" type="submit">Сохранить</button>
+    <div style="margin-left: 19%; width: 65%; margin-top: 7%;">
+      {{ form.image }}<br>
+      {{ form.title }}<br>
+      {{ form.cat }}<br>
+      <span>{{ error }}</span>
+    </div>
+    <button class="soxr save" type="submit">Сохранить</button>
   </form>
 {% endblock %}

@@ -45,7 +45,7 @@ class CommentForm(ModelForm):
                 "class": "form-control",
                 "placeholder": "Добавить комментарий",
                 "rows": 1.5,
-                "style": "resize:none; width: 75%; margin-top: 130px; margin-left: 80px; border-radius: 30px;",
+                "style": "resize:none; width: 75%; margin-top: 75px; margin-left: 80px; border-radius: 30px;",
             }
         ),
     )

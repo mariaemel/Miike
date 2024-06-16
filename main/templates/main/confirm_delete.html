@@ -5,7 +5,7 @@
 {% block content %}
 <div class="DELETE">
   <h3>Удалить пост</h3>
-  <p class="deleted">Вы уверены, что хотите удалить пост "{{ object.title }}"?</p>
+  <p class="deleted">Вы уверены, что хотите удалить пост?</p>
 
   <form action="{% url 'main:delete' cat_slug=object.cat.slug post_slug=object.slug %}" method="post">
     {% csrf_token %}

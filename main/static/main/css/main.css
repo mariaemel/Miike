@@ -171,7 +171,7 @@ input {
     text-align: center;
     text-transform: uppercase;
     padding: 10px;
-    font-weight: lighter;
+    font-weight: 300;
 }
 
 .video{
@@ -194,6 +194,8 @@ input {
     padding-left: 15px;
     padding-top: 10px;;
     font-size: 25px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .footer{
@@ -248,7 +250,8 @@ input {
 }
 
 .add-publication h1{
-    text-align: center
+    text-align: center;
+    font-size: 30px;
 }
 
 .register form{
@@ -289,46 +292,51 @@ input {
 
 .login button{
     background-color: #BCADA8;
-    font-size: 40px;
+    font-size: 22px;
     color: #000000;
-    font-weight: lighter;
-    text-transform: uppercase;
-    width: 200px;
+    width: 130px;
     height: 50px;
     border-radius: 10px;
 }
 
 .profile button{
-    background-color: #BCADA8;
-    font-size: 40px;
-    color: #000000;
-    font-weight: lighter;
-    text-transform: uppercase;
-    width: 400px;
-    height: 50px;
-    border-radius: 10px;
+    background: rgba(188, 173, 168, 1);
+    border: none;
+    border-radius: 30px;
+    font-size: 20px;
+    margin-bottom: 12%;
+    transform: translate(10%,0%);
+}
+
+.profile button:hover {
+    background: rgba(173, 150, 150, 1);
 }
 
 .register button{
     background-color: #BCADA8;
     font-size: 40px;
     color: #000000;
-    font-weight: lighter;
-    text-transform: uppercase;
-    width: 350px;
+    width: 250px;
     height: 50px;
     border-radius: 10px;
+
 }
 
 .add-publication button{
     background-color: #BCADA8;
     font-size: 36px;
     color: #000000;
-    font-weight: lighter;
-    text-transform: uppercase;
-    width: 370px;
     height: 45px;
     border-radius: 10px;
+}
+
+.add-publication button:hover{
+    background: rgba(173, 150, 150, 1);
+}
+
+.publ {
+    font-size: 20px;
+    margin-top: 0;
 }
 
 .add_pub_button{
@@ -367,14 +375,27 @@ input {
     display: grid;
     grid-template-columns : repeat(auto-fill, minmax(300px, 1fr));
     grid-auto-flow: dense;
-    gap: 10px;
-    grid-template-rows : repeat(auto, auto);
+    grid-template-rows : repeat(auto, auto);**/
     min-width: 100%;
+    column-gap: 0;
+    margin-left: 65px;
+}
+
+.container-posts1 {
+    margin: 0;
+    display: grid;
+    grid-template-columns : repeat(auto-fill, minmax(350px, 1fr));
+    grid-auto-flow: dense;
+    grid-template-rows : repeat(auto, auto);**/
+    column-gap: 0px;
+    margin-left: 25px;
+    margin-top: 30px;
 }
 
 .category-list {
-        display: flex;
-        gap: 20px;
+    display: flex;
+    gap: 20px;
+    margin-left: 80px;
 }
 
 .img {
@@ -398,7 +419,8 @@ input {
 
 .description-post {
     background-color: white;
-    max-width: 100%;
+    width: 530px;
+    padding-bottom: 5px;
 }
 .post-descript {
     padding-left: 15px;
@@ -411,7 +433,18 @@ input {
 }
 .post-author {
     font-weight: bold;
+    margin-left: 65px;
+    margin-top: -60px;
+    font-size: 20px;
 }
+
+.post-com {
+    margin-left: 65px;
+    font-size: 20px;
+    margin-top: -30px;
+    line-height: 30px;
+}
+
 
 .comments-side {
     background-color: rgba(244, 238, 235, 1);
@@ -428,7 +461,7 @@ input {
     max-height: auto;
     border-radius: 30px;
     height: 300px;
-    transform: translate(15%, 0%);
+    transform: translate(0%, 0%);
 }
 
 .comments-name {
@@ -436,7 +469,7 @@ input {
     color: #564D4D;
     font-weight: bold;
     line-height: 43.57px;
-    padding-left: 30px;
+    padding-left: 40px;
 }
 
 .comment-input {
@@ -457,7 +490,7 @@ input {
     background: url('../img/like.png');
     width: 29px;
     height: 27px;
-    transform: translate(785%, -480%);
+    transform: translate(760%, -240%);
     border: none;
 }
 
@@ -478,25 +511,31 @@ input {
 }
 
 .redactirovat {
-    font-size: 15px;
+    font-size: 14px;
+    margin-left: 17%;
 }
 
 .ydalit {
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .comment-text {
-    font-size: 15px;
+    font-size: 20px;
+    margin-left: 100px;
+    margin-top: -70px;
+
 }
 
 .noycomm {
-    transform: translate(5%, 0%);
     font-size: 20px;
+    margin-left: 30px;
 }
 
 .coment {
-    font-size: 15px;
-    margin-top: -40px;
+    font-size: 16px;
+    margin-top: -38px;
+    margin-left: 17%;
+    margin-bottom: -6%;
 }
 
 .likes {
@@ -531,7 +570,7 @@ input {
 
 .comment {
     width: 70%;
-    transform: translate(-9%,-250%);
+    transform: translate(-22%,-250%);
 }
 
 .deleted {
@@ -542,10 +581,6 @@ input {
     transform: translate(0%,-30%);
     background: #8e0c13;
     border: none;
-}
-
-.publ {
-    font-size: 28px;
 }
 
 .ulr {
@@ -574,8 +609,9 @@ input {
 }
 
 .DELETE {
-    margin-left: 50px;
-    margin-bottom: 23%;
+    margin-left: 550px;
+    margin-top: 220px;
+    margin-bottom: 15%;
 }
 
 .btn-red-post {
@@ -601,8 +637,15 @@ input {
 }
 
 .comment-login{
+    font-size: 20px;
     text-decoration: none;
     color: #9c8279;
+    margin-left: 20%;
+}
+
+.comment-dob {
+    font-size: 20px;
+    margin-top: 16%;
 }
 
 .category-button {
@@ -629,6 +672,10 @@ input {
     font-size: 20px;
 }
 
+.form-section{
+    margin-left: 550px;
+}
+
 .form-error {
     color: red;
     padding-left: 10px;
@@ -641,6 +688,15 @@ input, textarea, select {
     margin-bottom: 10px;
     box-sizing: border-box;
 }
+
+.postred {
+    margin-left: 41.5%;
+}
+
+.save {
+    transform: translate(450%,-25%);
+}
+
 
 .posts a{
     color: black;
@@ -657,7 +713,55 @@ input, textarea, select {
     text-decoration: none;
 }
 
+
 .like-button-1.disabled {
-    opacity: 0.5;
+
     pointer-events: none; /* Отключаем кликабельность */
+}
+
+
+.tab-container {
+    text-align: center;
+    margin-bottom: 0px;
+    text-decoration: underline solid 2px rgba(136, 120, 120, 1);
+}
+
+.tab-button {
+    padding: 10px 20px;
+    border: none;
+    margin: 0 5px;
+    background: rgba(217, 213, 210, 1);
+}
+
+.tab-button.active {
+    text-decoration: underline solid 2px rgba(136, 120, 120, 1);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin-left: 10px;
+    margin-top: -250px;
+}
+
+.post-grid1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin-left: -25px;
+    margin-top: 0px;
+}
+
+.post img {
+    width: 100%;
+    height: auto;
 }

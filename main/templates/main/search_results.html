@@ -3,18 +3,17 @@
 {% block content %}
 
     {% if query %}
-        <h3>Результаты поиска для "{{ query }}":</h3>
-        <ul>
+        <h3 style="margin-left: 25px;">Результаты поиска для "{{ query }}":</h3>
+        <ul class="container-posts1">
             {% for post in results %}
                 <li>
-                    <p><strong>Автор:</strong> {{ post.author.username }}</p>
-                    <p><strong>Категория:</strong> {{ post.cat.name }}</p>
-                    <img src="{{ post.image.url }}" alt="{{ post.title }}">
-                    <p>{{ post.title }}</p>
-                    <p>{{ post.likes.count }} лайков</p>
+                    <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="{{ post.title }}" width="85%" height="70%"></a>
+                    <p style="font-size: 20px;">{{ post.title }}</p>
+                    <p style="font-size: 17px; margin-top: -40px;"><strong>Автор:</strong> {{ post.author.username }}</p>
+                    <p style="font-size: 17px; margin-top: -40px;"><strong>Категория:</strong> {{ post.cat.name }}</p>
                 </li>
             {% empty %}
-                <li>Ничего не найдено</li>
+                <li style="margin-bottom: 110%; font-size: 20px;">Ничего не найдено</li>
             {% endfor %}
         </ul>
     {% endif %}

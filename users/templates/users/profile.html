@@ -1,51 +1,90 @@
 {% extends 'main/layout.html' %}
 {% load static %}
 {% block content %}
+<div style="margin-top: -40px; width: max; height: 250px; background:rgba(186, 151, 151, 1); ">
+
+</div>
 <div class="profile">
-    <h1>Профиль: {{ profile_user.username }}</h1>
-    <img src="{{ profile_user.profile.avatar.url }}" alt="Аватар" width="100">
-    <p>{{ profile_user.profile.bio }}</p>
-    <p>Дата рождения: {{ profile_user.profile.birth_date }}</p>
-    <p><a href="{% url 'users:followers_list' profile_user.username %}">Подписчиков: {{ followers }}</a></p>
-    <p><a href="{% url 'users:following_list' profile_user.username %}">Подписок: {{ following }}</a></p>
+    <h1 style="margin-top: 115px; margin-left: -800px;">{{ profile_user.username }}</h1>
+    <img src="{{ profile_user.profile.avatar.url }}"
+          style="background-repeat: no-repeat;
+                background-position: 50%;
+                border-radius: 50%;
+                width: 250px;
+                height: 250px;
+                object-fit: cover;
+                margin-left: 15%;
+                margin-top: -380px;
+                margin-bottom: 10px;"
+         alt="Аватар" width="250">
+    <p><a href="{% url 'users:followers_list' profile_user.username %}"><p style="margin-left:550px; margin-top:-190px; font-size: 22px;"> подписчиков</p> <div style="margin-top: -100px; font-size: 25px; margin-left: 610px;">{{ profile_user.profile.total_followers }}</div></a></p>
+    <p><a href="{% url 'users:following_list' profile_user.username %}"><p style="margin-left:750px; margin-top:-30px; font-size: 22px;">подписок</p> <div style="margin-top: -100px; font-size: 25px; margin-left: 790px;">{{ profile_user.profile.total_following }}</div></a></p>
+    <p style="font-size: 16px; margin-left: 500px; margin-top: 30px;"><p style="margin-left: 500px; margin-top: 30px; font-weight:bold; font-size: 16px;">Дата рождения:</p><p style="font-size: 16px; margin-left: 635px; margin-top: -65px;">{{ profile_user.profile.birth_date }}</p>
+    <p style="font-size: 18px; margin-left: 500px; margin-top: -30px;">{{ profile_user.profile.bio }}</p>
 
     {% if request.user != profile_user %}
     <form action="{% url 'users:follow_toggle' profile_user.username %}" method="post">
         {% csrf_token %}
         {% if request.user in profile_user.profile.followers.all %}
-        <button type="submit">Отписаться</button>
+        <button class="soxr" style="width: 10%;" type="submit">Отписаться</button>
         {% else %}
-        <button type="submit">Подписаться</button>
+        <button class="soxr" style="width: 10%;" type="submit">Подписаться</button>
         {% endif %}
     </form>
     {% else %}
-    <a href="{% url 'users:profile_edit' %}"><button>Редактировать</button></a>
+    <a href="{% url 'users:profile_edit' %}"><button style="width: 20%; margin-left: 950px; transform:translate(10%,-250%);">Редактировать профиль</button></a>
     {% endif %}
 
-    <h2>Публикации автора</h2>
-    <div>
-        {% for post in posts %}
-        <div class="post">
-            <h3>{{ post.title }}</h3>
-            <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="{{ post.title }}" width="25%" height="25%"></a>
-            <p>{{ post.content|linebreaks }}</p>
-            <p>Автор: {{ post.author }}</p>
-            <p>Лайков: {{ post.total_likes }}</p>
-        </div>
-        {% endfor %}
+    <div class="tap-container" style="text-align:center;">
+        <button class="tab-button active" style="font-size: 25px; transform:translate(10%,-200%);" onclick="openTab('posts')">Публикации</button>
+        <button class="tab-button" style="font-size: 25px;  transform:translate(10%,-200%);" onclick="openTab('liked_posts')">Нравится</button>
     </div>
 
-    <h2>Лайкнутые посты</h2>
-    <div>
-        {% for post in liked_posts %}
-        <div class="post">
-            <h3>{{ post.title }}</h3>
-            <img src="{{ post.image.url }}" alt="{{ post.title }}" width="25%" height="25%">
-            <p>{{ post.content|linebreaks }}</p>
-            <p>Автор: {{ post.author }}</p>
-            <p>Лайков: {{ post.total_likes }}</p>
+    <div id="posts" class="tab-content active">
+        <div class="post-grid">
+            {% for post in posts %}
+            <div class="post">
+                <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="{{ post.title }}" width="100%" height="100%"></a>
+                <h3 style="font-size: 20px; padding-bottom: 10px;">{{ post.title }}</h3>
+                <p>{{ post.content|linebreaks }}</p>
+                <p style="font-size: 17px; margin-top: -40px;"><strong>Автор:</strong> {{ post.author }}</p>
+                <p style="font-size: 17px; margin-top: -40px;"><strong>Лайков:</strong>  {{ post.total_likes }}</p>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
+
+    <div id="liked_posts" class="tab-content">
+        <div class="post-grid">
+            {% for post in liked_posts %}
+            <div class="post">
+                <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="{{ post.title }}" width="100%" height="100%"></a>
+                <h3 style="font-size: 24px; margin-top: 5px;">{{ post.title }}</h3>
+                <p>{{ post.content|linebreaks }}</p>
+                <p style="font-size: 17px; margin-top: -40px;"><strong>Автор:</strong> {{ post.author }}</p>
+                <p style="font-size: 17px; margin-top: -40px;"><strong>Лайков:</strong>  {{ post.total_likes }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
 </div>
-{% endblock %}
+
+<script>
+    function openTab(event, tabName) {
+        var i;
+        var x = document.getElementsByClassName("tab-content");
+        var buttons = document.getElementsByClassName("tab-button");
+
+        for (i = 0; i < x.length; i++) {
+            x[i].classList.remove("active");
+        }
+
+        for (i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove("active");
+        }
+
+        document.getElementById(tabName).classList.add("active");
+        event.currentTarget.classList.add("active");
+    }
+</script>

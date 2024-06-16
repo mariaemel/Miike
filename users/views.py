@@ -17,7 +17,6 @@ class LoginUser(LoginView):
     template_name = "users/login.html"
     extra_context = {"title": "Авторизация"}
 
-
 class RegisterUser(CreateView):
     form_class = RegisterUserForm
     template_name = "users/register.html"
@@ -48,14 +47,13 @@ class ProfileUserView(LoginRequiredMixin, UpdateView):
         context['posts'] = Publications.objects.filter(author=user)
         context['liked_posts'] = Publications.objects.filter(likes=user)
         context['followers'] = user.profile.total_followers()
-        context['following'] = user.following.count()  # Correctly count the number of followings
+        context['following'] = user.following.count()
         return context
 
     def get_template_names(self):
         if self.request.user.username == self.kwargs.get("username", self.request.user.username):
             return ["users/profile.html"]
         return ["users/user_profile.html"]
-
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = Profile
@@ -100,6 +98,7 @@ class FollowToggleView(LoginRequiredMixin, View):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
+
 class UserProfileView(DetailView):
     model = User
     template_name = "users/user_profile.html"
@@ -129,7 +128,7 @@ class FollowersListView(LoginRequiredMixin, ListView):
         context['profile_user'] = get_object_or_404(User, username=self.kwargs['username'])
         return context
 
-class FollowingListView(ListView):
+class FollowingListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'users/following_list.html'
     context_object_name = 'following'
@@ -137,11 +136,10 @@ class FollowingListView(ListView):
     def get_queryset(self):
         username = self.kwargs['username']
         user = get_object_or_404(User, username=username)
-        following = user.profile.followers.all()  # Access followers through Profile model
-        return following
+        # Fetch users that the profile user is following
+        return user.following.all()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['profile_user'] = get_object_or_404(User, username=self.kwargs['username'])
         return context
-

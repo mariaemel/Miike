@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -183,3 +184,9 @@ class LikePostView(LoginRequiredMixin, View):
             post.likes.add(request.user)
             liked = True
         return JsonResponse({'liked': liked, 'total_likes': post.total_likes()})
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        else:
+            return JsonResponse({'redirect': reverse('users:login')})

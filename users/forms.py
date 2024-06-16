@@ -98,7 +98,6 @@ class RegisterUserForm(UserCreationForm):
 
 class ProfileUserForm(forms.ModelForm):
     first_name = forms.CharField(
-        label="Имя",
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'style': 'width:60%; margin-left:185px; margin-bottom:-20px; margin-top:-70px',
@@ -106,7 +105,6 @@ class ProfileUserForm(forms.ModelForm):
         })
     )
     last_name = forms.CharField(
-        label="Фамилия",
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'style': 'width:60%; margin-left:185px; margin-bottom:-20px',
@@ -114,7 +112,6 @@ class ProfileUserForm(forms.ModelForm):
         })
     )
     bio = forms.CharField(
-        label="Информация о себе",
         widget=forms.Textarea(attrs={
             'class': 'form-control',
             'style': 'width:60%; margin-left:185px; margin-bottom:-20px; height: 150px;',
@@ -123,7 +120,6 @@ class ProfileUserForm(forms.ModelForm):
         required=False
     )
     birth_date = forms.DateField(
-        label="Дата рождения",
         widget=forms.DateInput(attrs={
             'class': 'form-control',
             'style': 'width:60%; margin-left:185px; margin-bottom:-20px',
@@ -133,7 +129,6 @@ class ProfileUserForm(forms.ModelForm):
         required=False
     )
     avatar = forms.ImageField(
-        label="Аватар",
         widget=forms.FileInput(attrs={
             'class': 'form-control',
             'style': 'width:60%; margin-left:185px; margin-bottom:-20px',
@@ -145,13 +140,6 @@ class ProfileUserForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['first_name', 'last_name', 'avatar', 'bio', 'birth_date']
-        labels = {
-            'first_name': 'Имя',
-            'last_name': 'Фамилия',
-            'avatar': 'Аватар',
-            'bio': 'Информация о себе',
-            'birth_date': 'Дата рождения',
-        }
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
