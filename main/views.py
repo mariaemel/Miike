@@ -72,6 +72,7 @@ class CategoryView(CompilationView):
         return context
 
 
+
 class PostDetailView(DetailView):
     model = Publications
     template_name = "main/post.html"

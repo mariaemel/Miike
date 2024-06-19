@@ -13,13 +13,17 @@
                         object-fit: cover;"
                  alt="Аватар" width="100">
             <p class="comment-text">
-                <a href="{% url 'users:user_profile' username=comment.author.username %}">{{ comment.author }}</a>
+                {% if user == comment.author %}
+                    <a href="{% url 'users:profile' %}">{{ comment.author }}</a>
+                {% else %}
+                    <a href="{% url 'users:user_profile' username=comment.author.username %}">{{ comment.author }}</a>
+                {% endif %}
                 <p style="font-size:15px; margin-left: 72%; margin-top: -10.5%; color: #404040"> {{ comment.datetime }} </p>
             </p>
             <p class="coment">{{ comment.text }}</p>
                 <p> {% if comment.author == user or user.is_superuser %} </p>
-                    <a style="margin-top:-10px;" class="redactirovat" href="{% url 'main:edit_comment' pk=comment.pk %}">Редактировать</a>
-                    <a class="ydalit" href="{% url 'main:delete_comment' pk=comment.pk %}">Удалить</a>
+                    <p style="margin-top: -40px;"><a class="redactirovat" href="{% url 'main:edit_comment' pk=comment.pk %}">Редактировать</a></p>
+                    <p style="margin-top: -68px; margin-left: 215px;"><a class="ydalit" href="{% url 'main:delete_comment' pk=comment.pk %}"> Удалить</a></p>
                 {% endif %}
             <hr>
         {% endfor %}

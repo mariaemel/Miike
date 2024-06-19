@@ -9,7 +9,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from main.models import Publications
 from .forms import ProfileUserForm, RegisterUserForm, CustomAuthenticationForm
-from .models import Profile
+from .models import Profile, Follow
 
 
 class LoginUser(LoginView):
@@ -24,14 +24,11 @@ class RegisterUser(CreateView):
     success_url = reverse_lazy("users:login")
 
 
-class ProfileUserView(LoginRequiredMixin, UpdateView):
+class ProfileUserView(LoginRequiredMixin, DetailView):
     model = get_user_model()
-    form_class = ProfileUserForm
-    template_name = "users/profile.html"
     context_object_name = "profile_user"
-
-    def get_success_url(self):
-        return reverse_lazy("users:profile")
+    slug_field = "username"
+    slug_url_kwarg = "username"
 
     def get_object(self, queryset=None):
         try:
@@ -46,14 +43,16 @@ class ProfileUserView(LoginRequiredMixin, UpdateView):
         user = self.get_object()
         context['posts'] = Publications.objects.filter(author=user)
         context['liked_posts'] = Publications.objects.filter(likes=user)
-        context['followers'] = user.profile.total_followers()
-        context['following'] = user.following.count()
+        context['user_following'] = Follow.objects.filter(user=self.request.user, author=user).exists()
+        context['background_color'] = user.profile.background_color  # Add background color to context
         return context
 
     def get_template_names(self):
         if self.request.user.username == self.kwargs.get("username", self.request.user.username):
             return ["users/profile.html"]
         return ["users/user_profile.html"]
+
+
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = Profile
@@ -84,21 +83,6 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-
-class FollowToggleView(LoginRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        user_to_follow = get_object_or_404(User, username=kwargs.get("username"))
-        profile = user_to_follow.profile
-
-        if request.user in profile.followers.all():
-            profile.followers.remove(request.user)
-        else:
-            profile.followers.add(request.user)
-
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
-
-
 class UserProfileView(DetailView):
     model = User
     template_name = "users/user_profile.html"
@@ -114,32 +98,28 @@ class UserProfileView(DetailView):
 
 
 class FollowersListView(LoginRequiredMixin, ListView):
-    model = User
     template_name = 'users/followers_list.html'
     context_object_name = 'followers'
 
     def get_queryset(self):
-        username = self.kwargs['username']
-        user = get_object_or_404(User, username=username)
-        return user.profile.followers.all()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['profile_user'] = get_object_or_404(User, username=self.kwargs['username'])
-        return context
+        user = get_object_or_404(User, username=self.kwargs['username'])
+        return Follow.objects.filter(author=user)
 
 class FollowingListView(LoginRequiredMixin, ListView):
-    model = User
     template_name = 'users/following_list.html'
     context_object_name = 'following'
 
     def get_queryset(self):
-        username = self.kwargs['username']
-        user = get_object_or_404(User, username=username)
-        # Fetch users that the profile user is following
-        return user.following.all()
+        user = get_object_or_404(User, username=self.kwargs['username'])
+        return Follow.objects.filter(user=user)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['profile_user'] = get_object_or_404(User, username=self.kwargs['username'])
-        return context
+
+class FollowToggleView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user_to_follow = get_object_or_404(User, username=kwargs.get("username"))
+
+        follow_instance, created = Follow.objects.get_or_create(user=request.user, author=user_to_follow)
+
+        if not created:
+            follow_instance.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

@@ -16,7 +16,6 @@ urlpatterns = [
     path("profile/<str:username>", ProfileUserView.as_view(), name="user_profile"),
     path("profile/edit/", ProfileEditView.as_view(), name="profile_edit"),
     path("follow-toggle/<str:username>/", FollowToggleView.as_view(), name="follow_toggle"),
-    path('user/<str:username>/', UserProfileView.as_view(), name='user_profile'),
-    path('followers/<str:username>/', FollowersListView.as_view(), name='followers_list'),
-    path('following/<str:username>/', FollowingListView.as_view(), name='following_list'),
+    path('profile/<str:username>/followers/', FollowersListView.as_view(), name='followers_list'),
+    path('profile/<str:username>/following/', FollowingListView.as_view(), name='following_list'),
 ]

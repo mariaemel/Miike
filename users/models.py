@@ -15,24 +15,39 @@ class Profile(models.Model):
     )
     bio = models.TextField(null=True, max_length=500, blank=True, verbose_name='Информация о себе')
     birth_date = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
-    followers = models.ManyToManyField(User, related_name='following', blank=True)
+    background_color = models.CharField(max_length=7, default='#BA9797', verbose_name='Цвет фона')
 
     def __str__(self):
         return self.user.username
 
     def total_followers(self):
-        return self.followers.count()
+        return Follow.objects.filter(author=self.user).count()
 
     def total_following(self):
-        return self.user.following.count()
+        return Follow.objects.filter(user=self.user).count()
 
 
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower',
+        verbose_name='Подписчик'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following',
+        verbose_name='Автор'
+    )
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        unique_together = ('user', 'author')
+
+    def __str__(self):
+        return f'{self.user.username} подписался на {self.author.username}'
+
+

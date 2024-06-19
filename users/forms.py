@@ -8,14 +8,14 @@ class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+            'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
             'placeholder': 'Логин'
         })
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+            'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
             'placeholder': 'Пароль'
         })
     )
@@ -24,14 +24,14 @@ class LoginUserForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'style': 'width:60%; margin-left:185px; margin-bottom:20px; margin-top:-70px',
+            'style': 'width:60%; margin-left:185px; margin-bottom:20px; margin-top:-70px padding-left:20px; border-radius: 30px;',
             'placeholder': 'Логин'
         })
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'style': 'width:60%; margin-left:185px; margin-bottom:20px',
+            'style': 'width:60%; margin-left:185px; margin-bottom:20px padding-left:20px; border-radius: 30px;',
             'placeholder': 'Пароль'
         })
     )
@@ -45,21 +45,21 @@ class RegisterUserForm(UserCreationForm):
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+            'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
             'placeholder': 'Логин'
         })
     )
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+            'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
             'placeholder': 'Пароль'
         })
     )
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+            'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
             'placeholder': 'Повторите пароль'
         })
     )
@@ -75,17 +75,17 @@ class RegisterUserForm(UserCreationForm):
         widgets = {
             'email': forms.TextInput(attrs={
                 'class': 'form-control',
-                'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+                'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
                 'placeholder': 'E-mail'
             }),
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+                'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
                 'placeholder': 'Имя'
             }),
             'last_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'style': 'width: 100%; margin-bottom: 20px; padding: 10px;',
+                'style': 'width: 100%; margin-bottom: 20px; padding: 10px; padding-left:20px; border-radius: 30px;',
                 'placeholder': 'Фамилия'
             }),
         }
@@ -95,6 +95,7 @@ class RegisterUserForm(UserCreationForm):
         if get_user_model().objects.filter(email=email).exists():
             raise forms.ValidationError("Такой E-mail уже существует!")
         return email
+
 
 class ProfileUserForm(forms.ModelForm):
     first_name = forms.CharField(
@@ -136,10 +137,18 @@ class ProfileUserForm(forms.ModelForm):
         }),
         required=False
     )
+    background_color = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'style': 'width:60%; margin-left:185px; margin-bottom:-20px',
+            'type': 'color',
+            'placeholder': 'Цвет фона'
+        })
+    )
 
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'avatar', 'bio', 'birth_date']
+        fields = ['first_name', 'last_name', 'avatar', 'bio', 'birth_date', 'background_color']
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)

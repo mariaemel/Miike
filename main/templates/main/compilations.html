@@ -22,8 +22,12 @@ $(document).ready(function() {
             {% for b in posts %}
                 <li>
                     <a href="{{ b.get_absolute_url }}"><img class="img" src="{{ b.image.url }}" width="70%" height="70%"></a>
-                    <p><a href="{% url 'users:user_profile' username=b.author.username %}">{{ b.author }}</a></p>
-                    <button data-post-id="{{ b.id }}" class="like-button {% if user in b.likes.all %} liked {% endif %}"></button>
+                    {% if user == b.author %}
+                        <p><a href="{% url 'users:profile' %}">{{ b.author }}</a></p>
+                    {% else %}
+                        <p><a href="{% url 'users:user_profile' username=b.author.username %}">{{ b.author }}</a></p>
+                    {% endif %}
+                    <button data-post-id="{{ b.id }}" class="like-button {% if user in b.likes.all %}liked{% endif %}"></button>
                 </li>
             {% endfor %}
         </ul>
@@ -36,12 +40,6 @@ $(document).ready(function() {
         var button = $(this);
         var postId = button.data('post-id');
 
-        if (button.hasClass('liked')) {
-            button.removeClass('liked');
-        } else {
-            button.addClass('liked');
-        }
-
         $.ajax({
             url: '{% url "main:like_post" %}',
             method: 'POST',
@@ -53,6 +51,11 @@ $(document).ready(function() {
                 if (data.redirect) {
                     window.location.href = data.redirect + "?next=" + window.location.pathname;
                 } else {
+                    if (data.liked) {
+                        button.addClass('liked');
+                    } else {
+                        button.removeClass('liked');
+                    }
                     button.siblings('.likes-count').text(data.total_likes + ' ');
                 }
             },
@@ -62,5 +65,16 @@ $(document).ready(function() {
         });
     });
 });
+
 </script>
+<script>
+window.addEventListener('pageshow', function(event) {
+    // Check if page was loaded from browser history (back/forward button)
+    if (event.persisted) {
+        // Page was loaded from cache (back/forward button)
+        window.location.reload(); // Reload the page to get the latest data
+    }
+});
+</script>
+
 {% endblock %}

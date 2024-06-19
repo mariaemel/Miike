@@ -2,19 +2,18 @@
 {% block title %}Форма по добавлению публикации{% endblock %}
 
 {% block content %}
-
 <div class="add-publication">
-    <h1> Форма по добавлению публикации</h1>
+    <h1> Добавить публикацию</h1>
     <form style="margin-top: 105px;" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {{ form.image.errors }}<br>
         {{ form.image }}<br>
+        {{ form.title.errors }}<br>
         {{ form.title }}<br>
+        {{ form.cat.errors }}<br>
         {{ form.cat }}<br>
         <span>{{ error }}</span>
-
         <button class="soxr" style="width: 20%; margin-left: 39%;" type="submit"><p class="publ">Опубликовать</p></button>
     </form>
 </div>
-
-
 {% endblock %}

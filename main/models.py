@@ -27,6 +27,7 @@ class Publications(models.Model):
     class Meta:
         verbose_name = "Публикация"
         verbose_name_plural = "Публикации"
+        ordering = ['-id']
 
     def get_absolute_url(self):
         return reverse(

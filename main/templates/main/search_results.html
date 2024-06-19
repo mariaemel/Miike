@@ -1,20 +1,54 @@
 {% extends 'main/layout.html' %}
 
 {% block content %}
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {% if query %}
         <h3 style="margin-left: 25px;">Результаты поиска для "{{ query }}":</h3>
         <ul class="container-posts1">
             {% for post in results %}
                 <li>
-                    <a href="{{ post.get_absolute_url }}"><img src="{{ post.image.url }}" alt="{{ post.title }}" width="85%" height="70%"></a>
-                    <p style="font-size: 20px;">{{ post.title }}</p>
-                    <p style="font-size: 17px; margin-top: -40px;"><strong>Автор:</strong> {{ post.author.username }}</p>
-                    <p style="font-size: 17px; margin-top: -40px;"><strong>Категория:</strong> {{ post.cat.name }}</p>
+                    <a href="{{ post.get_absolute_url }}"><img class="img" src="{{ post.image.url }}" width="70%" height="70%"></a>
+                    <p><a href="{% url 'users:user_profile' username=post.author.username %}">{{ post.author }}</a></p>
+                    <button data-post-id="{{ post.id }}" class="like-button {% if user in post.likes.all %} liked {% endif %}"></button>
                 </li>
             {% empty %}
                 <li style="margin-bottom: 110%; font-size: 20px;">Ничего не найдено</li>
             {% endfor %}
         </ul>
     {% endif %}
+
+<script>
+$(document).ready(function() {
+    $('.like-button').click(function() {
+        var button = $(this);
+        var postId = button.data('post-id');
+
+        if (button.hasClass('liked')) {
+            button.removeClass('liked');
+        } else {
+            button.addClass('liked');
+        }
+
+        $.ajax({
+            url: '{% url "main:like_post" %}',
+            method: 'POST',
+            data: {
+                'post_id': postId,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(data) {
+                if (data.redirect) {
+                    window.location.href = data.redirect + "?next=" + window.location.pathname;
+                } else {
+                    button.siblings('.likes-count').text(data.total_likes + ' ');
+                }
+            },
+            error: function() {
+                window.location.href = "{% url 'users:login' %}?next=" + window.location.pathname;
+            }
+        });
+    });
+});
+</script>
+
 {% endblock %}

@@ -2,6 +2,9 @@ from django.forms import CharField, FileInput, ModelForm, Select, Textarea, Text
 from django import forms
 from .models import Comment, Publications
 
+from django.core.exceptions import ValidationError
+from PIL import Image
+
 
 class PublicationsForm(ModelForm):
     class Meta:
@@ -35,6 +38,17 @@ class PublicationsForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(PublicationsForm, self).__init__(*args, **kwargs)
         self.fields["cat"].empty_label = "Выберите категорию"
+
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+
+        if image:
+            img = Image.open(image)
+            width, height = img.size
+            if width / height != 3 / 4:
+                raise ValidationError('Изображение должно быть с соотношением сторон 3:4.')
+
+        return image
 
 
 class CommentForm(ModelForm):

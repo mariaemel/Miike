@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="form-section container mt-3">
-        <h3>Редактирование комментария</h3>
+        <h3 style="padding-bottom: 50px;">Редактирование комментария</h3>
         <form method="post">
             {% csrf_token %}
             <p class="comment">{{ form.text }}</p>
