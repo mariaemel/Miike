@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="login" style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100vh;">
-    <h1>Авторизация</h1>
-    <form method="post" style="width: 60%; max-width: 500px;">
+    <h1 class="general-title" style="margin-top: -16px;">Авторизация</h1>
+    <form method="post" style="width: 60%; max-width: 500px; margin-top: 50px;">
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
         {% for field in form %}
@@ -11,8 +11,10 @@
             <div class="form-error">{{ field.errors }}</div>
         {% endfor %}
         <div style="text-align: center;">
-            <button class="soxr" style="margin-left: -35px;" type="submit">Войти</button>
+            <button class="soxr jek" style="margin-left: -35px; color: rgba(97, 72, 72, 1);" type="submit" >Войти</button>
         </div>
     </form>
+    <p style="font-size: 18px; transform: translate(0%, -770%); color: rgba(0, 0, 0, 0.7);">Нет профиля в miike? <a style="font-size: 18px; color:rgba(97, 72, 72, 1);" href="{% url 'users:register' %}">Зарегистрироваться</a></p>
+
 </div>
 {% endblock %}

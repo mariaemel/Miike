@@ -9,7 +9,7 @@
 
   <form action="{% url 'main:delete' cat_slug=object.cat.slug post_slug=object.slug %}" method="post">
     {% csrf_token %}
-    <button class="btn btn-danger me-2" type="submit">Да, удалить</button>
+    <button class="btn btn-danger me-2" type="submit">Удалить</button>
     <a href="{% url 'main:post' cat_slug=object.cat.slug post_slug=object.slug %}" class="btn btn-secondary btn-second">Отмена</a>
   </form>
 </div>

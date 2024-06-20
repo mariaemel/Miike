@@ -1,8 +1,8 @@
 {% extends 'main/layout.html' %}
 {% block content %}
-<div style="margin-top: -40px; width: max; height: 250px; background:rgba(186, 151, 151, 1); ">
-
+<div style="margin-top: -40px; width: max; height: 250px; background:{{ profile_user.profile.background_color }};">
 </div>
+
 <div class="profile">
     <h1 style="margin-top: 115px; margin-left: -800px;">{{ profile_user.username }}</h1>
     <img src="{{ profile_user.profile.avatar.url }}"
@@ -31,14 +31,14 @@
         <form method="post" action="{% url 'users:follow_toggle' profile_user.username %}">
             {% csrf_token %}
             {% if user_following %}
-                <button class="soxr"  style="width: 30%; margin-left: 350px; transform:translate(50%,-250%);" type="submit">Отписаться</button>
+                <button class="soxr"  style="border-radius: 10px; background: #BCADA8; color: #FFFFFF; width: 55%; margin-left: 330px; transform:translate(35%,-240%);" type="submit">Отписаться</button>
             {% else %}
-                <button class="soxr" style="width: 30%; margin-left: 350px; transform:translate(50%,-250%);" type="submit">Подписаться</button>
+                <button class="soxr" style="border-radius: 10px; background: #614848; color: #FFFFFF; width: 55%; margin-left: 330px; transform:translate(35%,-240%);" type="submit">Подписаться</button>
             {% endif %}
         </form>
     {% endif %}
 
-    <p style="font-size: 16px; margin-left: 500px; margin-top: 30px;">
+    <p style="font-size: 16px; margin-left: 500px; margin-top: -880px;">
         <p style="margin-left: 500px; margin-top: 30px; font-weight:bold; font-size: 16px;">Дата рождения:</p>
         <p style="font-size: 16px; margin-left: 635px; margin-top: -65px;">
             {% if profile_user.profile.birth_date %}
@@ -58,8 +58,8 @@
 
 
 
-    <h2 style="font-size: 30px; margin-top: -700px; text-align: center;">Публикации</h2>
-    <div class="post-grid1">
+    <h2 style="font-size: 30px; margin-top: 100px; text-align: center;">Публикации</h2>
+    <div class="post-grid1" style="margin-bottom: 21%;">
         {% for post in posts %}
         <ul class="post">
             <li>
@@ -68,7 +68,7 @@
             </li>
         </ul>
         {% empty %}
-        <p>Нет публикаций.</p>
+        <p style="margin-left: 44.5%;">Нет публикаций</p>
         {% endfor %}
     </div>
 </div>

@@ -10,7 +10,7 @@ from django.views.generic import CreateView, DetailView, TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
 from django.views.generic.list import ListView
 from django.utils.decorators import method_decorator
-from .forms import CommentForm, PublicationsForm, SearchForm
+from .forms import CommentForm, PublicationsForm, SearchForm, PublicationsUpdateForm
 from .models import Category, Comment, Publications
 
 
@@ -149,9 +149,8 @@ class SearchView(ListView):
 
 class UpdatePublicationView(LoginRequiredMixin, UpdateView):
     model = Publications
-    form_class = PublicationsForm
+    form_class = PublicationsUpdateForm
     template_name = "main/update.html"
-    success_url = reverse_lazy("main:compilations")
 
     def get_object(self, queryset=None):
         return get_object_or_404(Publications, slug=self.kwargs.get('post_slug'))
@@ -159,6 +158,16 @@ class UpdatePublicationView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'main:post',
+            kwargs={
+                'cat_slug': self.object.cat.slug,
+                'post_slug': self.object.slug
+            }
+        )
+
 
 
 class DeletePublicationView(DeleteView):

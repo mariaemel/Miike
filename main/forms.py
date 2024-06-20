@@ -46,9 +46,36 @@ class PublicationsForm(ModelForm):
             img = Image.open(image)
             width, height = img.size
             if width / height != 3 / 4:
-                raise ValidationError('Изображение должно быть с соотношением сторон 3:4.')
+                raise ValidationError('Изображение должно быть с соотношением сторон 3:4')
 
         return image
+
+
+
+class PublicationsUpdateForm(ModelForm):
+    class Meta:
+        model = Publications
+        fields = ["title", "cat"]
+
+        widgets = {
+            "title": TextInput(
+                attrs={
+                    "class": "form-control",
+                    "style": "width:60%; margin-left:185px; margin-bottom:-20px",
+                    "placeholder": "Описание"
+                }
+            ),
+            "cat": Select(
+                attrs={
+                    "class": "form-control",
+                    "style": "width:60%; margin-left:185px; margin-bottom:-10px"
+                }
+            ),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(PublicationsUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["cat"].empty_label = "Выберите категорию"
 
 
 class CommentForm(ModelForm):

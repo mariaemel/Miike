@@ -8,7 +8,7 @@
         <p class="deleted">Вы действительно хотите удалить этот комментарий?</p>
         <form method="post">
             {% csrf_token %}
-            <button class="btn btn-danger me-2" type="submit">Да, удалить</button>
+            <button class="btn btn-danger me-2" type="submit">Удалить</button>
             <a href="{% url 'main:post' cat_slug=object.post.cat.slug post_slug=object.post.slug %}" class="btn btn-secondary btn-second">Отмена</a>
         </form>
     </div>

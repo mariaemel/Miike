@@ -1,8 +1,8 @@
 {% extends 'main/layout.html' %}
 {% block content %}
 
-<div class="followers-list"  style="margin-bottom: 25.5%;">
-    <h1 style="font-size: 30px; text-align: center;">Подписчики:</h1>
+<div class="followers-list"  style="margin-bottom: 20%;">
+    <h1 style="font-size: 30px; text-align: center; margin-bottom: 20px;">Подписчики:</h1>
     <ul>
         {% for follow in followers %}
         <li>
@@ -12,15 +12,18 @@
                         width: 60px;
                         height: 60px;
                         margin-left: 25px;
-                        margin-bottom: 30px;
-                        margin-top: 20px;
+                        margin-bottom: 0px;
+                        margin-top: 0px;
                         object-fit: cover;"
                  alt="Аватар" width="100">
             <a style="text-decoration: none; color: black;" href="{% url 'users:user_profile' follow.user.username %}">{{ follow.user.username }}</a>
+            <hr style="margin-left: -32px;">
         </li>
+
         {% empty %}
-            <p>Нет подписчиков</p>
+            <p style="text-align: center; padding-top: 25%;">Нет подписчиков</p>
         {% endfor %}
+
     </ul>
 </div>
 

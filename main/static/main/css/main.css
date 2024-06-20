@@ -163,15 +163,22 @@ input {
     width: 10px;
 }
 
-.learn-title {
+.general-title {
     color: #453C3C;
-    font-size: 70px;
+    font-size: 60px;
+    margin-top: -80px;
     background-color: #BCADA8;
-    height: 120px;
+    height: 90px;
     text-align: center;
+    padding-top: 9px;
+    padding-bottom: 28px;
     text-transform: uppercase;
-    padding: 10px;
-    font-weight: 300;
+    font-weight: 150;
+    width: 100%;
+}
+
+.jek:hover{
+    background: rgba(173, 150, 150, 1);
 }
 
 .video{
@@ -195,7 +202,9 @@ input {
     padding-top: 10px;;
     font-size: 25px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: -10px;
+    text-transform: uppercase;
+    color:  rgba(49, 46, 46, 1);
 }
 
 .footer{
@@ -213,6 +222,7 @@ input {
 .connection {
     display: flex;
     justify-content: center;
+    color: rgba(49, 46, 46, 1);
 }
 .footer-navigation{
 
@@ -228,7 +238,7 @@ input {
 }
 .articles-footer a{
     text-decoration: none;
-    color: #000000;
+    color: rgba(49, 46, 46, 1);
 }
 
 .number{
@@ -615,17 +625,13 @@ input {
 }
 
 .btn-red-post {
-    transform: translate(360%, -380%);
+    transform: translate(360%, -280%);
 }
 
 .btn-del-post {
-    transform: translate(760%, -560%);
+    transform: translate(760%, -460%);
     background: #8e0c13;
 }
-
-
-
-
 
 .scroll-comment a{
     text-decoration: none;
@@ -634,6 +640,7 @@ input {
 
 .container{
     height: 500px;
+    transform: translate(0%,20%);
 }
 
 .comment-login{
@@ -694,7 +701,7 @@ input, textarea, select {
 }
 
 .save {
-    transform: translate(450%,-25%);
+    transform: translate(450%,-120%);
 }
 
 
@@ -726,9 +733,8 @@ input, textarea, select {
 
 
 .tab-container {
-    text-align: center;
-    margin-bottom: 0px;
     text-decoration: underline solid 2px rgba(136, 120, 120, 1);
+
 }
 
 .tab-button {
@@ -739,7 +745,8 @@ input, textarea, select {
 }
 
 .tab-button.active {
-    text-decoration: underline solid 2px rgba(136, 120, 120, 1);
+    text-decoration: underline solid 5px rgba(136, 120, 120, 1);
+    text-decoration-skip-ink: none;
 }
 
 .tab-content {
@@ -752,10 +759,10 @@ input, textarea, select {
 
 .post-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 10px;
-    margin-left: 10px;
-    margin-top: -250px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px;
+    margin-left: 2px;
+    margin-top: 55px;
 }
 
 .post-grid1 {
@@ -777,16 +784,45 @@ input, textarea, select {
 
 .show-more {
     display: block;
-    margin: 20px auto;
+    margin: 0px auto;
+    margin-bottom: 80px;
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #D9D5D2;
+    transition: background-color 0.3s;
+    color: #000000;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     text-align: center;
+    font-size: 22px;
+    text-decoration: underline solid 2px rgba(136, 120, 120, 1);
+    text-decoration-skip-ink: none;
 }
 
 .show-more:hover {
-    background-color: #0056b3;
+    color: rgba(97, 72, 72, 1);
 }
+
+.followers-list {
+    width: 40%;
+    padding-top: 35px;
+    margin-left: 30%;
+    margin-right: 25%;
+    padding-bottom: 10%;
+    border-radius: 10px;
+    background-position: center;
+    background-color: rgba(255, 252, 252, 0.85);
+}
+.following-list {
+
+    width: 40%;
+    padding-top: 35px;
+    margin-left: 30%;
+    margin-right: 25%;
+    padding-bottom: 10%;
+    border-radius: 10px;
+    background-position: center;
+    background-color: rgba(255, 252, 252, 0.85);
+}
+
+

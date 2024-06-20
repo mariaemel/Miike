@@ -6,11 +6,12 @@
   <h3 class="postred">Редактировать пост</h3>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <div style="margin-left: 19%; width: 65%; margin-top: 7%;">
-      {{ form.image }}<br>
+    <div style="margin-left: 19%; width: 65%; margin-top: 2%; margin-bottom: 4%;">
+      {{ form.non_field_errors }}
+      {{ form.title.errors }}
       {{ form.title }}<br>
+      {{ form.cat.errors }}
       {{ form.cat }}<br>
-      <span>{{ error }}</span>
     </div>
     <button class="soxr save" type="submit">Сохранить</button>
   </form>

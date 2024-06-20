@@ -27,8 +27,7 @@
         </div>
     </div>
     <div class="likes">
-    <span id="total_likes">{{ total_likes }}</span>
-    {% if user.is_authenticated %}
+        <span id="total_likes">{{ total_likes }}</span>
         <form id="like-form" method="POST">
             {% csrf_token %}
             <input type="hidden" name="post_id" value="{{ post.id }}">
@@ -36,15 +35,13 @@
                 <span id="like-icon"></span>
             </button>
         </form>
-    {% else %}
-        <a href="{% url 'users:login' %}?next={{ request.path }}" class="like-button-login">Лайкнуть</a>
-    {% endif %}
-</div>
+    </div>
 
     <div class="comments-side">
         {% include "main/comments.html" with post=post comments=post.comments.all %}
     </div>
 </section>
+
 {% if user == post.author %}
     <p><a href="{% url 'main:update' cat_slug=post.cat.slug post_slug=post.slug %}" class="btn btn-secondary btn-red-post">Редактировать</a></p>
     <form action="{% url 'main:confirm_delete' cat_slug=post.cat.slug post_slug=post.slug %}" method="get">
@@ -55,7 +52,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.like-button-1').click(function() {
+    $('#like-button').click(function() {
         var button = $(this);
         var postId = button.data('post-id');
 
@@ -70,16 +67,20 @@ $(document).ready(function() {
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             success: function(data) {
-                // Update like count
-                $('#total_likes').text(data.total_likes);
+                if (data.redirect) {
+                    window.location.href = data.redirect + "?next=" + window.location.pathname;
+                } else {
+                    // Update like count
+                    $('#total_likes').text(data.total_likes);
+                }
+            },
+            error: function() {
+                window.location.href = "{% url 'users:login' %}?next=" + window.location.pathname;
             }
         });
     });
 });
 
-</script>
-
-<script>
 window.addEventListener('pageshow', function(event) {
     // Check if page was loaded from browser history (back/forward button)
     if (event.persisted) {
